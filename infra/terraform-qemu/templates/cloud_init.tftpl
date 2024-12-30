@@ -1,0 +1,24 @@
+#cloud-config
+
+ssh_pwauth: true
+
+groups:
+  - admingroup: [root,sys]
+  - cloud-users
+
+users:
+   - default
+   - name: root
+     lock_passwd: false
+     plain_text_passwd: "root"
+   - name: ${user.name}
+     groups: sudo
+     homedir: /home/${user.name}
+     ssh_authorized_keys:
+%{ for key in user.ssh_keys ~}
+      - ${key}
+%{ endfor ~}
+     sudo: ALL=(ALL) NOPASSWD:ALL
+     shell: /bin/bash
+     lock_passwd: false
+     plain_text_passwd: "${user.password_plain_text}"

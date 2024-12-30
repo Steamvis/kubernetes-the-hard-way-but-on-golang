@@ -1,0 +1,4 @@
+jumpHost:
+    ip: 10.10.10.199
+    username: dev
+    password: dev
